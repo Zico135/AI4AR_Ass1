@@ -7,6 +7,8 @@ Then run (from ai4r_ws)
 After that this line should work fine
 `ros2 launch relbot_video_interface video_interface.launch.py`
 
+For testing purposes the Gstreamer pipeline to receive RELBot camera feed was replaced with webcam capture. Go to launch/video_interface.launch.py and uncomment and comment out parameters part to use the normal pipeline.
+
 I exported the model to tflite so that it runs faster on CPU. As far as I know, there are no drowbacks to doing this, so I would recommend using it. If you want to use GPU, you might then want to use the default model format. For that, uncomment this line and comment out the line after it.
 `self.model = YOLO("yolov8n.pt")`
 
