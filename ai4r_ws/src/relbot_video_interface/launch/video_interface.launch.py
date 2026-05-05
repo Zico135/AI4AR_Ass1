@@ -9,11 +9,18 @@ def generate_launch_description():
             name='video_interface',
             output='screen',
             parameters=[
+                #{'gst_pipeline': (
+                    #'udpsrc port=5000 caps="application/x-rtp,media=video,'
+                    #'encoding-name=H264,payload=96" ! '
+                    #'rtph264depay ! avdec_h264 ! videoconvert ! '
+                    #'video/x-raw,format=RGB ! appsink name=sink'
+                #)}
                 {'gst_pipeline': (
-                    'udpsrc port=5000 caps="application/x-rtp,media=video,'
-                    'encoding-name=H264,payload=96" ! '
-                    'rtph264depay ! avdec_h264 ! videoconvert ! '
-                    'video/x-raw,format=RGB ! appsink name=sink'
+                    'v4l2src device=/dev/video0 ! '
+                    'video/x-raw,width=640,height=480,framerate=30/1 ! '
+                    'videoconvert ! '
+                    'video/x-raw,format=RGB ! '
+                    'appsink name=sink'
                 )}
             ],
         ),
