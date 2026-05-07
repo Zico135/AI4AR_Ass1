@@ -22,8 +22,9 @@ class VideoInterfaceNode(Node):
         self.position_pub = self.create_publisher(Point, '/object_position', 10)
 
         # Dataset of detecting people
-        # self.model = YOLO("yolov8n.pt")  # default format (slower)
-        self.model = YOLO("/ai4r_ws/src/relbot_video_interface/yolov8n_saved_model/yolov8n_float16.tflite")  # tflite format (faster)
+        self.model = YOLO("yolov8n.pt")  # default format (slower)
+        # self.model = YOLO("/ai4r_ws/src/relbot_video_interface/yolov8n_saved_model/yolov8n_float16.tflite")  # tflite format (faster)
+        # self.model = YOLO("/ai4r_ws/src/relbot_video_interface/hardhats/weights/best.pt)  # hardhats
         self.midas = torch.hub.load("intel-isl/MiDaS", "MiDaS_small")
 
         # Declare GStreamer pipeline as a parameter for flexibility
@@ -113,11 +114,11 @@ class VideoInterfaceNode(Node):
 
             msg.x = float(x_center)
             msg.y = float(y_center)
-            msg.z = float(10000)
+            msg.z = float(10001)
         else:
             msg.x = 0.0
             msg.y = 0.0
-            msg.z = 0.0
+            msg.z = 10001.0
 
         
         self.position_pub.publish(msg) # Publish the computed position to the robot controller

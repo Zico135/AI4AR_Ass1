@@ -1,4 +1,5 @@
 ## Right after opening the container
+
 `pip3 install lap --break-system-packages`
 
 Then run (from ai4r_ws)
@@ -9,16 +10,13 @@ After that this line should work fine
 
 For testing purposes the Gstreamer pipeline to receive RELBot camera feed was replaced with webcam capture. Go to launch/video_interface.launch.py and uncomment and comment out parameters part to use the normal pipeline.
 
+Then follow the instructions in the original readme.
+For conveince, the relbot pipeline is below.
+
+`gst-launch-1.0 -v v4l2src device=/dev/video2 ! image/jpeg,width=320,height=240,framerate=30/1 ! jpegdec ! videoconvert ! x264enc tune=zerolatency bitrate=800 speed-preset=ultrafast ! rtph264pay config-interval=1 pt=96 ! udpsink host=<HOST_IP> port=5000`
+
 I exported the model to tflite so that it runs faster on CPU. As far as I know, there are no drowbacks to doing this, so I would recommend using it. If you want to use GPU, you might then want to use the default model format. For that, uncomment this line and comment out the line after it.
 `self.model = YOLO("yolov8n.pt")`
-
-`gst-launch-1.0 -v \
-v4l2src device=/dev/video2 ! \
-image/jpeg,width=320,height=240,framerate=30/1 ! \
-jpegdec ! videoconvert ! \
-x264enc tune=zerolatency bitrate=800 speed-preset=ultrafast ! \
-rtph264pay config-interval=1 pt=96 ! \
-udpsink host=<HOST_IP> port=5000`
 
 ## for exporting (should be unnecessary if using provided exported models)
 `pip3 install "tensorflow>=2.0.0,<=2.19.0" --break-system-packages`
